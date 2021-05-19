@@ -115,7 +115,7 @@ class NA:
             "csv": "MMEM:STOR:FDAT",
             "s1p": "MMEM:STOR:SNP"
         }
-        if fname not in ("csv", "s1p", "png"):
+        if fmt not in ("csv", "s1p", "png"):
             raise InvalidFileTypeError
         fname = fname+"."+fmt
         command = commands[fmt]

@@ -119,11 +119,12 @@ class NA:
             raise InvalidFileTypeError
         fname = fname+"."+fmt
         command = commands[fmt]
-        self.na.write(f'{command} "{fname}"')
+        self.na.write(f'MMEM:DEL "temp.{fmt}"')
+        self.na.write(f'{command} "temp.{fmt}"')
 
         # BINBLOCK transfer
         data = self.na.query_binary_values(
-            f'MMEM:DATA? "{fname}"',
+            f'MMEM:DATA? "temp.{fmt}"',
             datatype="B",
             container=bytearray
         )
@@ -131,7 +132,7 @@ class NA:
         with open(fname, "wb") as f:
             f.write(data)
 
-        self.na.write(f'MMEM:DEL "{fname}"') # delete from VNA to save space
+        self.na.write(f'MMEM:DEL "temp.{fmt}"') # delete from VNA to save space
 
     def get_handle(self) -> pyvisa.Resource:
         """
